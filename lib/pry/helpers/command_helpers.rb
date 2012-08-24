@@ -261,6 +261,26 @@ class Pry
 
         Range.new(a, b)
       end
+
+      # Captures output stream from {Gem::DefaultUserInteraction}.
+      #
+      # @example
+      #   output = capture_gem_stdout do
+      #     Gem::Uninstaller.new("yadda-yadda-yadda").uninstall
+      #   end
+      #   output
+      #   # => "Successfully uninstalled yadda-yadda-yadda-1.0.0"
+      # @return [String] Redirected output
+      def capture_gem_stdout
+        require 'stringio'
+        ui = Gem::DefaultUserInteraction.ui
+        previous_stdout = ui.instance_variable_get(:@outs)
+        ui.instance_variable_set(:@outs, StringIO.new)
+        yield
+        ui.instance_variable_get(:@outs).string
+      ensure
+        ui.instance_variable_set(:@outs, previous_stdout)
+      end
     end
 
   end
