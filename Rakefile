@@ -50,6 +50,13 @@ task :test do
   sh "bacon -Itest -rubygems -a -q"
 end
 
+namespace :mac do
+  task :test do
+    check_dependencies unless ENV['SKIP_DEP_CHECK']
+    sh "macbacon -Itest -rubygems -a -q"
+  end
+end
+
 desc "Run pry"
 task :pry do
   check_dependencies unless ENV['SKIP_DEP_CHECK']

@@ -100,6 +100,11 @@ class Pry
       def windows_ansi?
         defined?(Win32::Console) || ENV['ANSICON']
       end
+      
+      # are we on the macruby platform?
+      def macruby?
+        RbConfig::CONFIG['ruby_install_name'] == 'macruby'
+      end
 
       # are we on Jruby platform?
       def jruby?

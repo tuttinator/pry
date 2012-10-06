@@ -320,7 +320,12 @@ class Pry
     inject_sticky_locals(target)
     exec_hook :before_eval, code, self
 
-    result = target.eval(code, Pry.eval_path, Pry.current_line)
+    begin
+      result = target.eval(code, Pry.eval_path, Pry.current_line)
+    rescue Exception => e
+      # puts e
+      exception_handler.call(output, result, self)
+    end
     set_last_result(result, target, code)
   ensure
     update_input_history(code)
@@ -332,7 +337,13 @@ class Pry
     if last_result_is_exception?
       exception_handler.call(output, result, self)
     elsif should_print?
-      print.call(output, result)
+      # TODO: Test issue here
+      begin
+        print.call(output, result)
+      rescue
+        puts output.inspect
+        puts result.inspect
+      end
     else
       # nothin'
     end
@@ -539,7 +550,7 @@ class Pry
     @input_array << code
     if code
       Pry.line_buffer.push(*code.each_line)
-      puts code.each_line.inspect
+      # TODO: The Enumeration object seems to throw a wobbly about the .count method
       # Pry.current_line += code.each_line.count
     end
   end

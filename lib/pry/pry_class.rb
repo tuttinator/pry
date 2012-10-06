@@ -1,6 +1,7 @@
 require 'ostruct'
 require 'forwardable'
 require 'pry/config'
+require 'pry/helpers/base_helpers'
 
 class Pry
 
@@ -244,7 +245,13 @@ class Pry
     config.input = Readline
     config.output = $stdout
     config.commands = Pry::Commands
-    config.prompt_name = DEFAULT_PROMPT_NAME
+    
+    if Helpers::BaseHelpers.macruby?
+      config.prompt_name = "macpry"
+    else
+      config.prompt_name = DEFAULT_PROMPT_NAME
+    end
+    
     config.prompt = DEFAULT_PROMPT
     config.print = DEFAULT_PRINT
     config.exception_handler = DEFAULT_EXCEPTION_HANDLER
