@@ -539,7 +539,8 @@ class Pry
     @input_array << code
     if code
       Pry.line_buffer.push(*code.each_line)
-      Pry.current_line += code.each_line.count
+      puts code.each_line.inspect
+      # Pry.current_line += code.each_line.count
     end
   end
 

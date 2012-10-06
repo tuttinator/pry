@@ -3,8 +3,14 @@
 #
 
 require 'pp'
-require 'pry/helpers/base_helpers'
-require 'pry/hooks'
+
+$:.unshift File.dirname(__FILE__)
+
+require "pry/helpers/base_helpers"
+require "pry/hooks"
+# 
+# require 'pry/helpers/base_helpers'
+# require 'pry/hooks'
 
 class Pry
   # The default hooks - display messages when beginning and ending Pry sessions.

@@ -1,0 +1,17 @@
+#!/usr/bin/env macruby
+
+# (C) John Mair (banisterfiend)
+# MIT license
+
+$0 = 'macpry'
+
+begin
+  require 'macpry'
+rescue LoadError
+  require 'rubygems'
+  require File.expand_path "../../lib/pry", __FILE__
+  # require 'lib/pry'
+end
+
+# Process command line options and run Pry
+Pry::CLI.parse_options
